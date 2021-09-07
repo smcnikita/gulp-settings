@@ -1,0 +1,4 @@
+.idea
+.vscode
+package.json
+node_modules
