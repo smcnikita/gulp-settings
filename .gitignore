@@ -1,6 +1,11 @@
 .idea
 .vscode
 node_modules
-public
+public/css/style.css
+public/css/style.min.css
+public/js/script.js
+public/js/script.min.js
+public/img
+public/fonts
 src/fonts
 src/img
