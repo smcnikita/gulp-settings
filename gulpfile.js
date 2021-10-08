@@ -32,16 +32,17 @@ const { src, dest } = require("gulp"),
   gulp = require("gulp"),
   browserSync = require("browser-sync").create(),
   del = require("del"),
-  htmlmin = require("gulp-htmlmin");
-(sass = require("gulp-sass")(require("sass"))),
-  (sourcemaps = require("gulp-sourcemaps")),
-  (autoprefixer = require("gulp-autoprefixer")),
-  (gcmq = require("gulp-group-css-media-queries")),
-  (cleanCSS = require("gulp-clean-css")),
-  (rename = require("gulp-rename")),
-  (uglify = require("gulp-uglify-es").default),
-  (ttf2woff = require("gulp-ttf2woff")),
-  (ttf2woff2 = require("gulp-ttf2woff2"));
+  htmlhint = require("gulp-htmlhint"),
+  htmlmin = require("gulp-htmlmin"),
+  sass = require("gulp-sass")(require("sass")),
+  sourcemaps = require("gulp-sourcemaps"),
+  autoprefixer = require("gulp-autoprefixer"),
+  gcmq = require("gulp-group-css-media-queries"),
+  cleanCSS = require("gulp-clean-css"),
+  rename = require("gulp-rename"),
+  uglify = require("gulp-uglify-es").default,
+  ttf2woff = require("gulp-ttf2woff"),
+  ttf2woff2 = require("gulp-ttf2woff2");
 
 function browserSyncReloadPage() {
   browserSync.init({
@@ -55,6 +56,8 @@ function browserSyncReloadPage() {
 
 function html() {
   return src(path.src.html)
+    .pipe(htmlhint(".htmlhintrc"))
+    .pipe(htmlhint.reporter("htmlhint-stylish"))
     .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(dest(path.build.html))
     .pipe(browserSync.stream());
