@@ -1,0 +1,40 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+insert_final_newline = false
+max_line_length = 120
+tab_width = 4
+
+[*.sass]
+indent_size = 2
+
+[*.scss]
+indent_size = 2
+
+[{*.ant,*.fxml,*.jhm,*.jnlp,*.jrxml,*.rng,*.tld,*.wsdl,*.xml,*.xsd,*.xsl,*.xslt,*.xul,phpunit.xml.dist}]
+indent_style = tab
+
+[{*.cjs,*.js}]
+indent_style = tab
+
+[{*.ctp,*.hphp,*.inc,*.module,*.php,*.php4,*.php5,*.phtml}]
+indent_style = tab
+
+[{*.har,*.jsb2,*.jsb3,*.json,.babelrc,.eslintrc,.stylelintrc,bowerrc,composer.lock,jest.config}]
+indent_size = 2
+indent_style = tab
+
+[{*.htm,*.html,*.ng,*.sht,*.shtm,*.shtml}]
+indent_size = 2
+indent_style = tab
+tab_width = 2
+
+[{*.markdown,*.md}]
+indent_style = tab
+
+[{*.yaml,*.yml}]
+indent_size = 2
