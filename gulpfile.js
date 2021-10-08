@@ -6,6 +6,7 @@ const path = {
     html: projectFolder + "/",
     css: projectFolder + "/css/",
     js: projectFolder + "/js/",
+    php: projectFolder + "/php/",
     img: projectFolder + "/img/",
     fonts: projectFolder + "/fonts/",
   },
@@ -13,6 +14,7 @@ const path = {
     html: srcFolder + "/*.html",
     css: srcFolder + "/scss/style.scss",
     js: srcFolder + "/js/script.js",
+    php: srcFolder + "/php/**/*.php",
     img: srcFolder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
     fonts: srcFolder + "/fonts/*.ttf",
   },
@@ -20,6 +22,7 @@ const path = {
     html: srcFolder + "/**/*.html",
     css: srcFolder + "/scss/**/*.scss",
     js: srcFolder + "/js/**/*.js",
+    php: srcFolder + "/php/**/*.php",
     img: srcFolder + "/img/**/*.{jpg,png,svg,gif,ico,webp}",
   },
   clean: "./" + projectFolder + "/",
@@ -29,15 +32,16 @@ const { src, dest } = require("gulp"),
   gulp = require("gulp"),
   browserSync = require("browser-sync").create(),
   del = require("del"),
-  sass = require("gulp-sass")(require("sass")),
-  sourcemaps = require("gulp-sourcemaps"),
-  autoprefixer = require("gulp-autoprefixer"),
-  gcmq = require("gulp-group-css-media-queries"),
-  cleanCSS = require("gulp-clean-css"),
-  rename = require("gulp-rename"),
-  uglify = require("gulp-uglify-es").default,
-  ttf2woff = require("gulp-ttf2woff"),
-  ttf2woff2 = require("gulp-ttf2woff2");
+  htmlmin = require("gulp-htmlmin");
+(sass = require("gulp-sass")(require("sass"))),
+  (sourcemaps = require("gulp-sourcemaps")),
+  (autoprefixer = require("gulp-autoprefixer")),
+  (gcmq = require("gulp-group-css-media-queries")),
+  (cleanCSS = require("gulp-clean-css")),
+  (rename = require("gulp-rename")),
+  (uglify = require("gulp-uglify-es").default),
+  (ttf2woff = require("gulp-ttf2woff")),
+  (ttf2woff2 = require("gulp-ttf2woff2"));
 
 function browserSyncReloadPage() {
   browserSync.init({
@@ -51,6 +55,7 @@ function browserSyncReloadPage() {
 
 function html() {
   return src(path.src.html)
+    .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(dest(path.build.html))
     .pipe(browserSync.stream());
 }
@@ -84,6 +89,12 @@ function js() {
   );
 }
 
+function php() {
+  return src(path.src.php)
+    .pipe(dest(path.build.php))
+    .pipe(browserSync.stream());
+}
+
 function images() {
   return src(path.src.img)
     .pipe(dest(path.build.img))
@@ -99,6 +110,7 @@ function watchFiles() {
   gulp.watch([path.watch.html], html);
   gulp.watch([path.watch.css], buildStyles);
   gulp.watch([path.watch.js], js);
+  gulp.watch([path.watch.php], php);
   gulp.watch([path.watch.img], images);
 }
 
@@ -108,12 +120,13 @@ function deletePublicFolder() {
 
 const build = gulp.series(
   deletePublicFolder,
-  gulp.parallel(js, buildStyles, html, images, fonts)
+  gulp.parallel(php, js, buildStyles, html, images, fonts)
 );
 const watch = gulp.parallel(build, watchFiles, browserSyncReloadPage);
 
 exports.fonts = fonts;
 exports.images = images;
+exports.php = php;
 exports.js = js;
 exports.buildStyles = buildStyles;
 exports.html = html;
